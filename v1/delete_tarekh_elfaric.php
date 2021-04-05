@@ -8,7 +8,7 @@
     // include database.php
     include_once ("../config/database.php");
     //include student.php
-    include_once ("../classes/student.php");
+    include_once ("../classes/AboutTheTeam.php");
 
     //creat object from database class
     $db = new Database();
@@ -17,35 +17,35 @@
 
     //creat object from student class
 
-    $stud = new Student($connection);
+    $aboutTheTeam = new AboutTheTeam($connection);
 
     if($_SERVER['REQUEST_METHOD']==='GET'){
-        $param = isset($_GET['stud_id'])? $_GET['stud_id']:"";
+        $param = isset($_GET['id'])? $_GET['id']:"";
         if(!empty($param)){
-            $stud->stud_id = $param;
-            if($stud->delete_student()){
+            $aboutTheTeam->id = $param;
+            if($aboutTheTeam->delete_date_of_team()){
                 http_response_code(200); //ok
                 echo json_encode(array(
                 "status"=>1,
-                "data"=>"student deleted"
+                "data"=>"record is deleted"
             ));
             }else{
-                http_response_code(500); //ok
+                http_response_code(500); 
                 echo json_encode(array(
                     "status"=>0,
-                    "messege"=>"fail"
+                    "messege"=>"record does not delete"
                 ));
             }
         
         }else{
-             http_response_code(404); //ok
+             http_response_code(404); 
              echo json_encode(array(
             "status"=>0,
             "messege"=>"empty reqiuer inputs"
              ));
              }
         }else{
-        http_response_code(503); //ok
+        http_response_code(503); 
         echo json_encode(array(
             "status"=>0,
             "messege"=>"access denied"

@@ -10,7 +10,7 @@
     // include database.php
     require_once ("../config/database.php");
     //include student.php
-    require_once ("../classes/student.php");
+    require_once ("../classes/AboutTheTeam.php");
 
     //creat object from database class
     $db = new Database();
@@ -19,37 +19,36 @@
 
     //creat object from student class
 
-    $stud = new Student($connection);
+    $aboutTheTeam = new AboutTheTeam($connection);
 
     if($_SERVER['REQUEST_METHOD']==='POST'){
         //submit data
         $data = json_decode(file_get_contents('php://input'));
-       if(!empty($data->name) && !empty($data->email) && !empty($data->mobile)){
-        $stud->name = $data->name;
-        $stud->email = $data->email;
-        $stud->mobile = $data->mobile;
+       if(!empty($data->year) && !empty($data->description) ){
+        $aboutTheTeam->year= $data->year;
+        $aboutTheTeam->description = $data->description;
 
-        if($stud->creat_data()){
+        if($aboutTheTeam->creat_date_of_team()){
             http_response_code(200); //ok
             echo json_encode(array(
                 "status"=>1,
-                "messege"=>"success"
+                "messege"=>"success data is inserted"
             ));
         }else{
-            http_response_code(500); //ok
+            http_response_code(500); 
             echo json_encode(array(
                 "status"=>0,
-                "messege"=>"fail"
+                "messege"=>"fail data does not insert"
             ));
         }
     }else{
-        http_response_code(404); //ok
+        http_response_code(404); 
         echo json_encode(array(
             "status"=>0,
             "messege"=>"empty reqiuer inputs"
         ));
     }}else{
-        http_response_code(503); //ok
+        http_response_code(503); 
         echo json_encode(array(
             "status"=>0,
             "messege"=>"access denied"
